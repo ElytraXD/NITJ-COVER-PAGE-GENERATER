@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>NITJ Lab Cover Page Generator</title>
+  <meta name="description" content="Generate and download official NIT Jalandhar lab cover page and index sheets in PDF format." />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <!-- jsPDF & html2canvas for client-side PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <!-- Inlined Logo Data to ensure 100% offline & CORS-free PDF export -->
+  <script src="logo_base64.js"></script>
+</head>
+<body>
+
+  <!-- MAIN APP WRAPPER -->
+  <div id="appRoot">
+
+    <!-- Top Navigation Header -->
+    <header class="app-header">
+      <div class="header-brand">
+        <img src="logo.png" alt="NITJ Logo" class="header-logo-icon" id="headerLogoImg" />
+        <div class="header-titles">
+          <h1>NITJ Lab Cover Generator</h1>
+          <p>Dr. B R Ambedkar NIT Jalandhar</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn btn-whatsapp no-print" id="whatsappShareBtn" title="Share on WhatsApp">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.861.174.086.275.073.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.392-12.416c-5.514 0-10 4.486-10 10 0 1.924.551 3.725 1.516 5.253l-1.603 5.86 6.001-1.573c1.477.872 3.204 1.378 5.086 1.378 5.514 0 10-4.486 10-10s-4.486-10-10-10z"/></svg>
+          <span class="btn-text">Share</span>
+        </button>
+        <button type="button" class="btn btn-accent no-print" id="shareBtn" title="Copy Link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <span class="btn-text">Copy Link</span>
+        </button>
+        <button type="button" class="btn-icon no-print" id="themeToggleBtn" title="Toggle Dark/Light Mode">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="themeIcon"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main View Area (Generator) -->
+    <main class="app-container" id="generatorView">
+      
+      <!-- Left Column: Google Form Input Card -->
+      <section class="form-panel no-print">
+        
+        <!-- Primary Input Form Card -->
+        <div class="form-card highlight-card">
+          <div class="form-card-banner"></div>
+          <div class="form-card-content">
+            <h2 class="form-card-title">Fill Your Details</h2>
+            <p class="form-card-desc">Type your name and roll number below to immediately download your cover page.</p>
+
+            <!-- Student Name (Empty default value, placeholder prompt) -->
+            <div class="form-group">
+              <label class="form-label" for="studentName">
+                Student Name <span class="required">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="studentName" 
+                class="form-input text-capitalize" 
+                placeholder="Enter Your Full Name" 
+                value="" 
+                autocomplete="name"
+                autofocus
+                required 
+              />
+            </div>
+
+            <!-- Roll Number (Empty default value, placeholder prompt) -->
+            <div class="form-group">
+              <label class="form-label" for="rollNumber">
+                Roll Number <span class="required">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="rollNumber" 
+                class="form-input" 
+                placeholder="Enter Your Roll Number" 
+                value="" 
+                required 
+              />
+            </div>
+
+            <!-- Group (Kept default as G1 [0-31]) -->
+            <div class="form-group">
+              <label class="form-label" for="groupName">
+                Group
+              </label>
+              <input 
+                type="text" 
+                id="groupName" 
+                class="form-input" 
+                placeholder="e.g. G1 [0-31] or G2 [32-62]" 
+                value="G1 [0-31]" 
+              />
+            </div>
+
+            <!-- Subject Title (Kept default) -->
+            <div class="form-group">
+              <label class="form-label" for="subjectLine">
+                Subject & Lab Code
+              </label>
+              <input 
+                type="text" 
+                id="subjectLine" 
+                class="form-input" 
+                value="Object Oriented Programming Lab (ITDC- 0231)" 
+              />
+            </div>
+
+            <!-- Faculty Name (Kept default) -->
+            <div class="form-group">
+              <label class="form-label" for="teacherName">
+                Submitted To (Faculty)
+              </label>
+              <input 
+                type="text" 
+                id="teacherName" 
+                class="form-input" 
+                value="Dr. Kusum Bharti" 
+              />
+            </div>
+
+          </div>
+
+          <!-- Optional Extra Details Accordion -->
+          <div class="accordion-header" id="moreOptionsHeader">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 0.82rem; font-weight: 600; color: var(--text-muted);">More Options (Branch, Semester, Index Pages)</span>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="accIcon"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="accordion-content" id="moreOptionsContent">
+            <div class="form-group">
+              <label class="form-label" for="degreeBranch">Branch & Degree</label>
+              <input type="text" id="degreeBranch" class="form-input" value="B.TECH. Information Technology" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="semesterSession">Semester & Session</label>
+              <input type="text" id="semesterSession" class="form-input" value="3rd SEMESTER, July-Dec 2026" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="teacherDept">Department</label>
+              <input type="text" id="teacherDept" class="form-input" value="Department of Information Technology" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="indexPageCount">Number of Index Pages</label>
+              <select id="indexPageCount" class="form-select">
+                <option value="0">0 (Cover Page Only - removes "Index" at bottom)</option>
+                <option value="1">1 Index Page</option>
+                <option value="2">2 Index Pages</option>
+                <option value="3" selected>3 Index Pages (Standard 4-page set)</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-box">
+          <button type="button" class="btn btn-primary btn-large" id="downloadPdfBtn">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download PDF
+          </button>
+
+          <div class="btn-row">
+            <button type="button" class="btn btn-secondary" id="printBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Print
+            </button>
+            <button type="button" class="btn btn-secondary" id="quickShareBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+              Share Link
+            </button>
+          </div>
+        </div>
+
+        <!-- Hidden / Discreet Creator Credit -->
+        <div class="subtle-credit-tag">
+          <span>created by : <strong style="color: #673ab7;">ELYTRA</strong></span>
+          <span>Aka : <strong>ARMAAN (bunk manager)</strong></span>
+        </div>
+
+      </section>
+
+      <!-- Right Column: Live A4 Document Preview -->
+      <section class="preview-panel">
+        <!-- Toolbar -->
+        <div class="preview-toolbar no-print">
+          <div class="preview-tabs" id="pageTabContainer">
+            <button type="button" class="preview-tab-btn active" data-view="all">All</button>
+            <button type="button" class="preview-tab-btn" data-view="cover">Cover</button>
+            <button type="button" class="preview-tab-btn" data-view="index1">Index 1</button>
+            <button type="button" class="preview-tab-btn" data-view="index2">Index 2</button>
+            <button type="button" class="preview-tab-btn" data-view="index3">Index 3</button>
+          </div>
+          
+          <div class="zoom-controls">
+            <button type="button" class="btn btn-secondary" id="zoomOutBtn">-</button>
+            <span id="zoomLevelText">Fit</span>
+            <button type="button" class="btn btn-secondary" id="zoomInBtn">+</button>
+            <button type="button" class="btn btn-secondary" id="zoomResetBtn">Auto</button>
+          </div>
+        </div>
+
+        <!-- Viewport containing A4 Printable Sheets -->
+        <div class="preview-viewport" id="previewViewport">
+          <div id="pagesScaleContainer">
+            
+            <!-- PAGE 1: COVER PAGE -->
+            <div class="a4-sheet" id="coverSheet">
+              <div class="cover-page">
+                
+                <!-- Top Header Block -->
+                <div class="cover-header-group">
+                  <div class="cover-title" id="pvSubject">Object Oriented Programming Lab (ITDC- 0231)</div>
+                  <div class="cover-degree" id="pvDegree">B.TECH. Information Technology</div>
+                  <div class="cover-semester" id="pvSemester">3<sup>rd</sup> SEMESTER, July-Dec 2026</div>
+                  <div class="cover-group" id="pvGroup">Group: G1 [0-31]</div>
+                </div>
+
+                <!-- Official NIT Jalandhar PNG Logo (High Precision) -->
+                <div class="cover-emblem-wrap" id="pvEmblem">
+                  <img src="logo.png" alt="NIT Jalandhar Emblem" class="cover-logo-img" id="pvLogoImg" />
+                </div>
+
+                <!-- Two Column Submitted To / Submitted By -->
+                <div class="cover-sub-section">
+                  <div class="submitted-box submitted-to">
+                    <div class="submitted-heading">Submitted To-</div>
+                    <div class="submitted-name" id="pvTeacher">Dr. Kusum Bharti</div>
+                    <div class="submitted-extra" id="pvTeacherDept">Department of Information Technology</div>
+                  </div>
+
+                  <div class="submitted-box submitted-by">
+                    <div class="submitted-heading">Submitted By-</div>
+                    <div class="submitted-name" id="pvStudentName">YOUR NAME</div>
+                    <div class="submitted-extra" id="pvRollNumber">ROLL NUMBER</div>
+                  </div>
+                </div>
+
+                <!-- Footer Institute Details -->
+                <div class="cover-footer">
+                  <div class="institute-name" id="pvInstName">Dr. B R Ambedkar National Institute of Technology</div>
+                  <div class="institute-address-1" id="pvInstAddr1">Grand Trunk Road, Barnala - Amritsar Bypass Road,</div>
+                  <div class="institute-address-2" id="pvInstAddr2">Jalandhar, Punjab 144008</div>
+                  <div class="cover-index-title" id="pvIndexLabel">Index</div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Dynamic Index Sheets Container -->
+            <div id="indexSheetsWrapper">
+              <!-- Index sheets inserted via JS -->
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- SUCCESS / CRAZY TRANSITION RATING SCREEN -->
+    <div id="successScreen" class="success-screen">
+      <div class="success-card">
+        <div class="success-badge-icon">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#25d366" stroke-width="2.8"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        
+        <h2 class="success-title">PDF Downloaded Successfully! 🎉</h2>
+        <p class="success-subtitle">Your official NITJ Lab Cover Page is ready for submission.</p>
+
+        <!-- Rating Section -->
+        <div class="rating-box">
+          <div class="rating-prompt">Rate this Generator</div>
+          <div class="stars-row" id="starRating">
+            <span class="star" data-rating="1">★</span>
+            <span class="star" data-rating="2">★</span>
+            <span class="star" data-rating="3">★</span>
+            <span class="star" data-rating="4">★</span>
+            <span class="star" data-rating="5">★</span>
+          </div>
+          <div class="rating-feedback-msg" id="ratingFeedbackMsg">Click to rate your experience</div>
+
+          <!-- Quick Reaction Tags -->
+          <div class="reaction-tags" id="reactionTags">
+            <button type="button" class="reaction-chip">🔥 Super Fast</button>
+            <button type="button" class="reaction-chip">💯 Accurate Format</button>
+            <button type="button" class="reaction-chip">🚀 Saved My Day</button>
+            <button type="button" class="reaction-chip">😎 Bunk Approved</button>
+          </div>
+        </div>
+
+        <!-- Action Row on Success Screen -->
+        <div class="success-actions">
+          <button type="button" class="btn btn-whatsapp btn-large" id="successShareBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.861.174.086.275.073.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.392-12.416c-5.514 0-10 4.486-10 10 0 1.924.551 3.725 1.516 5.253l-1.603 5.86 6.001-1.573c1.477.872 3.204 1.378 5.086 1.378 5.514 0 10-4.486 10-10s-4.486-10-10-10z"/></svg>
+            Share with Classmates
+          </button>
+          
+          <button type="button" class="btn btn-secondary" id="backToEditorBtn">
+            ← Generate Another Cover
+          </button>
+        </div>
+
+        <div class="thank-you-note">
+          <p>Thanks for visiting!</p>
+        </div>
+
+        <!-- Hidden / Secret Easter Egg Rating Credits -->
+        <div class="secret-easter-egg">
+          <span>created by : <strong>ELYTRA</strong></span>
+          <span>Aka : <strong>ARMAAN (bunk manager)</strong></span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Element -->
+  <div class="toast" id="toast">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4caf50" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    <span id="toastMsg">Action completed successfully!</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
