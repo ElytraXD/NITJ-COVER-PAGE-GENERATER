@@ -21,7 +21,7 @@ Every semester, hundreds of engineering students waste valuable time manually fo
   - **Academic Session**: *3rd SEMESTER, July-Dec 2026*
   - **Submitted To (Faculty)**: *Dr. Kusum Bharti*
   - **Department**: *Department of Information Technology*
-  - **Group**: *G1 [0-31]* or custom editable text (e.g., *G2 [32-62]*).
+  - **Group**: *G1*, *G2*, *G3*, or *G4*.
 
 ### 🎯 2. Pixel-Perfect Official Formatting
 - **Official NITJ High-Res Emblem**: Features the circular gear logo with central atomic orbitals, torch flame, sunburst rays, and the Sanskrit motto (*"सरस्वती नमस्तुभ्यं"*).

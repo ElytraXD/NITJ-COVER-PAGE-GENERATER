@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sName = rawName || 'YOUR NAME';
     const rNumber = rawRoll || 'ROLL NUMBER';
 
-    const gName = groupNameInput ? groupNameInput.value.trim() || 'G1 [0-31]' : 'G1 [0-31]';
+    const gName = groupNameInput ? groupNameInput.value.trim() || 'G1' : 'G1';
     const sub = subjectLineInput ? subjectLineInput.value.trim() || 'Object Oriented Programming Lab (ITDC- 0231)' : '';
     const deg = degreeBranchInput ? degreeBranchInput.value.trim() || 'B.TECH. Information Technology' : 'B.TECH. Information Technology';
     const sem = semesterSessionInput ? semesterSessionInput.value.trim() || '3rd SEMESTER, July-Dec 2026' : '3rd SEMESTER, July-Dec 2026';

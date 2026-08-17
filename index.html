@@ -91,18 +91,17 @@
               />
             </div>
 
-            <!-- Group (Kept default as G1 [0-31]) -->
+            <!-- Group Selector (G1, G2, G3, G4) -->
             <div class="form-group">
               <label class="form-label" for="groupName">
                 Group
               </label>
-              <input 
-                type="text" 
-                id="groupName" 
-                class="form-input" 
-                placeholder="e.g. G1 [0-31] or G2 [32-62]" 
-                value="G1 [0-31]" 
-              />
+              <select id="groupName" class="form-select">
+                <option value="G1" selected>G1</option>
+                <option value="G2">G2</option>
+                <option value="G3">G3</option>
+                <option value="G4">G4</option>
+              </select>
             </div>
 
             <!-- Subject Title (Kept default) -->
@@ -229,7 +228,7 @@
                   <div class="cover-title" id="pvSubject">Object Oriented Programming Lab (ITDC- 0231)</div>
                   <div class="cover-degree" id="pvDegree">B.TECH. Information Technology</div>
                   <div class="cover-semester" id="pvSemester">3<sup>rd</sup> SEMESTER, July-Dec 2026</div>
-                  <div class="cover-group" id="pvGroup">Group: G1 [0-31]</div>
+                  <div class="cover-group" id="pvGroup">Group: G1</div>
                 </div>
 
                 <!-- Official NIT Jalandhar PNG Logo (High Precision) -->
