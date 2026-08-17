@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const pvInstName = document.getElementById('pvInstName');
   const pvInstAddr1 = document.getElementById('pvInstAddr1');
   const pvInstAddr2 = document.getElementById('pvInstAddr2');
-  const pvIndexLabel = document.getElementById('pvIndexLabel');
   const indexSheetsWrapper = document.getElementById('indexSheetsWrapper');
   const coverSheet = document.getElementById('coverSheet');
   
