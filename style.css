@@ -597,15 +597,22 @@ body {
   margin-bottom: 2mm;
 }
 
-.cover-index-title {
-  font-size: 13.5pt;
-  font-weight: bold;
-  margin-top: 1mm;
-}
-
 /* Page 2, 3, 4: Index Table */
 .index-page {
-  padding: 20mm 18mm;
+  padding: 16mm 18mm 18mm 18mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.index-page-title {
+  text-align: center;
+  font-size: 15pt;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 5mm;
+  color: #000000;
+  font-family: var(--font-serif);
 }
 
 .index-table {

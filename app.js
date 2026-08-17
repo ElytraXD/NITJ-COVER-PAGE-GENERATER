@@ -98,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return `
       <div class="a4-sheet index-page" id="indexSheet_${pageIndex}">
+        <div class="index-page-title">INDEX</div>
         <table class="index-table">
           <thead>
             <tr>
@@ -141,15 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pvTeacher) pvTeacher.textContent = tName;
     if (pvTeacherDept) pvTeacherDept.textContent = tDept;
 
-    // 0 Index Page Rule: When index count is 0, remove "Index" title at bottom!
     const count = parseInt(indexPageCountSelect ? indexPageCountSelect.value : '3', 10);
-    if (pvIndexLabel) {
-      if (count === 0) {
-        pvIndexLabel.style.display = 'none';
-      } else {
-        pvIndexLabel.style.display = 'block';
-      }
-    }
 
     // Index Pages Rendering
     let indexHtml = '';
